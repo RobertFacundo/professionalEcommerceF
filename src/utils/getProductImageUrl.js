@@ -1,0 +1,1 @@
+export const getProductImageUrl = (imagePath) => `http://localhost:3000/${imagePath}`;

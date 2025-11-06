@@ -3,7 +3,9 @@ import axiosInstance from "./axiosConfig";
 const productService = {
     getAllProducts: async () => {
         try {
+            console.log('llamando a la service de products')
             const response = await axiosInstance.get('/products');
+            console.log('respuesta del service de products', response)
             return response.data;
         } catch (error) {
             throw error.response?.data || error;
