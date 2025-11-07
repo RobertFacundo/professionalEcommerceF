@@ -18,38 +18,50 @@ const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action) => {
             const product = action.payload;
-            const existingItem = state.items.find((item) => item._id === product._id);
+            const existingItem = state.items.find((item) => item._id === product._id && item.selectedPresentation === product.selectedPresentation);
 
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += product.quantity || 1;
             } else {
-                state.items.push({ ...product, quantity: 1 });
+                state.items.push({ ...product, quantity: product.quantity || 1 });
             }
 
             state.totalQuantity = state.items.reduce((acc, item) => acc + item.quantity, 0);
-            state.totalPrice = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            state.totalPrice = state.items.reduce((acc, item) => acc + item.selectedPrice * item.quantity, 0);
 
             saveToLocalStorage(state.items);
         },
         removeFromCart: (state, action) => {
-            const id = action.payload;
-            state.items = state.items.filter((item) => item._id !== id);
+            const { id, presentation } = action.payload;
+            const existingItem = state.items.find(
+                (item) => item._id === id && item.selectedPresentation === presentation
+            );
+
+            if (existingItem) {
+                if (existingItem.quantity > 1) {
+                    existingItem.quantity -= 1;
+                } else {
+                    state.items = state.items.filter(
+                        (item) => item._id !== id || item.selectedPresentation !== presentation
+                    );
+                }
+            }
 
             state.totalQuantity = state.items.reduce((acc, item) => acc + item.quantity, 0);
-            state.totalPrice = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            state.totalPrice = state.items.reduce((acc, item) => acc + item.selectedPrice * item.quantity, 0);
 
             saveToLocalStorage(state.items);
         },
         updateQuantity: (state, action) => {
-            const { id, quantity } = action.payload;
-            const item = state.items.find((item) => item._id === id);
+            const { id, presentation, quantity } = action.payload;
+            const item = state.items.find((item) => item._id === id && item.selectedPresentation === presentation);
 
             if (item && quantity > 0) {
                 item.quantity = quantity;
             }
 
             state.totalQuantity = state.items.reduce((acc, item) => acc + item.quantity, 0);
-            state.totalPrice = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            state.totalPrice = state.items.reduce((acc, item) => acc + item.selectedPrice * item.quantity, 0);
 
             saveToLocalStorage(state.items);
         },

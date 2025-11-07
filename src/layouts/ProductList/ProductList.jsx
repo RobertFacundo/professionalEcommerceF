@@ -11,7 +11,6 @@ export default function ProductList({ onOpenModal }) {
     if (error) return <Text color='red.500'>{error}</Text>;
 
     const categories = [... new Set(products.map((p) => p.category))];
-    console.log(categories)
 
     return (
         <Box width="70%" mx="auto" mt={8}>
@@ -22,7 +21,7 @@ export default function ProductList({ onOpenModal }) {
                         <Accordion.Item key={category} value={category} >
                             <Accordion.ItemTrigger>
                                 <Box
-                                    position="relative"        
+                                    position="relative"
                                     flex='1'
                                     fontWeight='bold'
                                     fontSize='lg'
@@ -31,7 +30,7 @@ export default function ProductList({ onOpenModal }) {
                                     bgSize='cover'
                                     bgPosition='center'
                                     color='white'
-                                    minH="110px"  
+                                    minH="110px"
                                     py={6}
                                     borderRadius="md"
                                     overflow="hidden"
@@ -42,7 +41,7 @@ export default function ProductList({ onOpenModal }) {
                                         left={0}
                                         width="100%"
                                         height="100%"
-                                        bg="rgba(0,0,0,0.5)" 
+                                        bg="rgba(0,0,0,0.5)"
                                         zIndex={0}
                                     />
                                     <Box position="relative" zIndex={1} pt={4}>
