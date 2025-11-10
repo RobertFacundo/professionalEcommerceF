@@ -146,15 +146,23 @@ export default function useCheckoutLogic(onClose) {
             setOrderResult(result);
 
             if (paymentMethod === 'mercadopago') {
-                console.log("💳 Pedido creado con MercadoPago...");
+                console.log("💳 Demo: simulando pedido de MercadoPago...");
 
                 const orderId = result.orderId || result._id;
 
-                // abrir checkout
-                window.open(result.payment.init_point, "_blank");
+                setInitPoint(result.payment.init_point);
+                setOrderResult({
+                    orderId,
+                    payment: {
+                        provider: 'mercadopago',
+                        init_point: result.payment.init_point,
+                        instructions: `In a real payment flow, the user would be redirected to Mercado Pago at this URL: ${result.payment.init_point}. You can check the console for more information!`
+                    }
+                });
+                setStep(4);
 
-                // iniciar polling
-                startPollingOrder(orderId);
+                if (typeofclearCart === 'function') clearCart();
+
                 return;
             }
 

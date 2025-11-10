@@ -6,7 +6,11 @@ export function CheckoutSuccess({ order, onClose }) {
             <Text fontSize="xl" fontWeight="bold">Compra exitosa</Text>
             <Text mt={2}>Order ID: {order?.orderId || order?.id || '—'}</Text>
             <Text mt={2}>Método de pago: {order?.payment?.provider || '—'}</Text>
-            <Text mt={2}>{order?.payment?.instructions || ''}</Text>
+            {order?.payment?.instructions && (
+                <Text mt={2} fontSize="sm" color="gray.600">
+                    {order.payment.instructions}
+                </Text>
+            )}
             <Button mt={4} colorScheme="blue" onClick={onClose}>Cerrar</Button>
         </Box>
     );
