@@ -16,8 +16,6 @@ import CartItem from './CartItem'
 export default function CartDrawer({ isOpen, onClose, onCheckout }) {
     const { items, totalPrice } = useCart();
 
-    console.log(totalPrice, 'log del cartMODALtotal price!!!')
-
     return (
         <DrawerRoot
             open={isOpen}

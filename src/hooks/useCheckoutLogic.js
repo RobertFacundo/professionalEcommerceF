@@ -89,13 +89,12 @@ export default function useCheckoutLogic(onClose) {
 
     const handleCreateOrder = async ({ viaWhatsapp = false } = {}) => {
 
-        console.log("🟦 HANDLE CREATE ORDER DISPARADO");
-        console.log("Método de pago seleccionado:", paymentMethod);
-        console.log("Método de envío seleccionado:", shippingMethod);
-        console.log("Comprador:", buyer);
-        console.log("Productos:", items);
+        console.log("🟦 HANDLE CREATE ORDER TRIGGERED");
+        console.log("Selected payment method:", paymentMethod);
+        console.log("Selected shipping method:", shippingMethod);
+        console.log("Buyer info:", buyer);
+        console.log("Products:", items);
         console.log("viaWhatsapp?", viaWhatsapp);
-
 
         if (!items || items.length === 0) {
             toaster.create({
@@ -107,7 +106,7 @@ export default function useCheckoutLogic(onClose) {
             return;
         }
 
-        console.log("🟦 Items antes de payload:", items);
+        console.log("🟦 Items before payload:", items);
 
         const payload = {
             products: items.map((p) => ({
@@ -134,19 +133,19 @@ export default function useCheckoutLogic(onClose) {
             total: totalPrice,
         };
 
-        console.log("🟪 Payload final enviado a createOrder:", payload);
+        console.log("🟪 Final payload sent to createOrder:", payload);
 
         try {
             setLoading(true);
 
             const result = await dispatch(createOrder(payload)).unwrap();
 
-            console.log("🟩 Respuesta de createOrder:", result);
+            console.log("🟩 createOrder response:", result);
 
             setOrderResult(result);
 
             if (paymentMethod === 'mercadopago') {
-                console.log("💳 Demo: simulando pedido de MercadoPago...");
+                console.log("💳 Demo: simulating MercadoPago order...");
 
                 const orderId = result.orderId || result._id;
 
@@ -156,18 +155,18 @@ export default function useCheckoutLogic(onClose) {
                     payment: {
                         provider: 'mercadopago',
                         init_point: result.payment.init_point,
-                        instructions: `In a real payment flow, the user would be redirected to Mercado Pago at this URL: ${result.payment.init_point}. You can check the console for more information!`
+                        instructions: `In a real payment flow, the user would be redirected to Mercado Pago at this URL: ${result.payment.init_point}. \n\n Check the console for more information!`
                     }
                 });
                 setStep(4);
 
-                if (typeofclearCart === 'function') clearCart();
+                if (typeof clearCart === 'function') clearCart();
 
                 return;
             }
 
             if (viaWhatsapp) {
-                console.log("🟨 Simulando flujo de WhatsApp…");
+                console.log("🟨 Simulating WhatsApp flow…");
 
                 const summary = items
                     .map(
@@ -192,33 +191,30 @@ export default function useCheckoutLogic(onClose) {
                     createdAt: new Date().toISOString()
                 };
 
-                // ✅ Crear blob JSON
                 const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
                     type: "application/json"
                 });
 
-                // ✅ Abrir una pestaña con el JSON
                 const jsonUrl = URL.createObjectURL(blob);
                 window.open(jsonUrl, "_blank");
 
-                // ✅ Avanza al paso final del checkout
                 setOrderResult(jsonData)
                 setStep(4)
             }
 
             if (paymentMethod === 'transferencia') {
-                console.log("🟧 Mostrando instrucciones de transferencia");
+                console.log("🟧 Showing bank transfer instructions");
                 toaster.create({
                     status: "info",
-                    title: "Instrucciones de transferencia",
+                    title: "Bank transfer instructions",
                     description:
                         result.payment?.instructions ||
-                        "Revisá las instrucciones en la pantalla de éxito.",
+                        "Check the success screen for instructions.",
                 });
             }
 
             if (result?.orderId && typeof clearCart === 'function') {
-                console.log("🟥 Ejecutando clearCart()");
+                console.log("🟥 Executing clearCart()");
                 clearCart();
             }
         } catch (error) {

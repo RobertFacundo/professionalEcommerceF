@@ -43,8 +43,6 @@ export default function CheckoutModal({ isOpen, onClose }) {
         totalPrice
     } = useCheckoutLogic(onClose);
 
-    console.log(orderResult, 'LOG DEL ORDER RESULT!!')
-
     return (
         <DrawerRoot
             open={isOpen}
