@@ -155,7 +155,10 @@ export default function useCheckoutLogic(onClose) {
                     payment: {
                         provider: 'mercadopago',
                         init_point: result.payment.init_point,
-                        instructions: `In a real payment flow, the user would be redirected to Mercado Pago at this URL: ${result.payment.init_point}. \n\n Check the console for more information!`
+                        instructions: `In a real payment flow, the user would be redirected to Mercado Pago at this URL: ${result.payment.init_point}.
+                                    After completing the payment, a webhook is triggered in the backend, which updates the order status.\n
+                                    The frontend would then poll the order status and, once updated, conditionally render the CheckoutSuccess component.\n
+                                    Check the console for more information!`
                     }
                 });
                 setStep(4);
