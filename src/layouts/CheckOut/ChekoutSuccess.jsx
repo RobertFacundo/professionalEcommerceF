@@ -7,7 +7,7 @@ export function CheckoutSuccess({ order, onClose }) {
             <Text mt={2}>Order ID: {order?.orderId || order?.id || '—'}</Text>
             <Text mt={2}>Payment Method: {order?.payment?.provider || '—'}</Text>
             {order?.payment?.instructions && (
-                <Text mt={2} fontSize="sm" color="gray.600">
+                <Text mt={2} fontSize="sm" color="gray.600" whiteSpace="pre-wrap">
                     {order.payment.instructions}
                 </Text>
             )}
