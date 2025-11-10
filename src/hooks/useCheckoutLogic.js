@@ -6,7 +6,7 @@ import { useCart } from './useCart';
 import axiosInstance from '../api/axiosConfig';
 
 export default function useCheckoutLogic(onClose) {
-    const { items, totalPrice, clearCart } = useCart();
+    const { items, totalPrice, clear: clearCart } = useCart();
     const dispatch = useDispatch();
 
     const [step, setStep] = useState(1);
@@ -149,7 +149,7 @@ export default function useCheckoutLogic(onClose) {
 
                 const orderId = result.orderId || result._id;
 
-                 clearCart();
+                clear();
 
                 setInitPoint(result.payment.init_point);
                 setOrderResult({
@@ -160,7 +160,7 @@ export default function useCheckoutLogic(onClose) {
                         instructions: `In a real payment flow, the user would be redirected to Mercado Pago at this URL: ${result.payment.init_point}.
                                     After completing the payment, a webhook is triggered in the backend, which updates the order status.
                                     The frontend would then poll the order status and, once updated, conditionally render the CheckoutSuccess component.
-                                    Check the console for more information!`            
+                                    Check the console for more information!`
                     }
                 });
                 setStep(4);
