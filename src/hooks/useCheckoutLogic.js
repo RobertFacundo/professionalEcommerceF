@@ -149,7 +149,7 @@ export default function useCheckoutLogic(onClose) {
 
                 const orderId = result.orderId || result._id;
 
-                clear();
+                clearCart();
 
                 setInitPoint(result.payment.init_point);
                 setOrderResult({
