@@ -146,12 +146,14 @@ export default function useCheckoutLogic(onClose) {
             setOrderResult(result);
 
             if (paymentMethod === 'mercadopago') {
-                console.log("💳 Pedido creado con MercadoPago. preferenceId:", result.payment.preferenceId, "init_point:", result.payment.init_point);
-                setPreferenceId(result.payment.preferenceId || null);
-                setInitPoint(result.payment.init_point || null);
+                console.log("💳 Pedido creado con MercadoPago...");
 
                 const orderId = result.orderId || result._id;
 
+                // abrir checkout
+                window.open(result.payment.init_point, "_blank");
+
+                // iniciar polling
                 startPollingOrder(orderId);
                 return;
             }
