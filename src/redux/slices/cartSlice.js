@@ -5,7 +5,7 @@ const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
 const initialState = {
     items: savedCart,
     totalQuantity: savedCart.reduce((acc, item) => acc + item.quantity, 0),
-    totalPrice: savedCart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    totalPrice: savedCart.reduce((acc, item) => acc + item.selectedPrice * item.quantity, 0),
 };
 
 const saveToLocalStorage = (items) => {

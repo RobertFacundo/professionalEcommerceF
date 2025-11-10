@@ -13,16 +13,16 @@ import { Button, Box, Text, VStack, Textarea, Portal } from "@chakra-ui/react";
 import { useCart } from "../../hooks/useCart";
 import CartItem from './CartItem'
 
-export default function CartDrawer({ isOpen, onClose }) {
+export default function CartDrawer({ isOpen, onClose, onCheckout }) {
     const { items, totalPrice } = useCart();
 
-    console.log(totalPrice,'log del cartMODALtotal price!!!')
+    console.log(totalPrice, 'log del cartMODALtotal price!!!')
 
     return (
         <DrawerRoot
             open={isOpen}
             onOpenChange={(e) => !e.open && onClose()}
-            placement="start"   
+            placement="start"
             size="md"
         >
             <Portal>
@@ -64,7 +64,7 @@ export default function CartDrawer({ isOpen, onClose }) {
 
                         {items.length > 0 && (
                             <DrawerFooter>
-                                <Button colorScheme="blue" w="full" onClick={onClose}>
+                                <Button colorScheme="blue" w="full" onClick={onCheckout}>
                                     Checkout (${totalPrice})
                                 </Button>
                             </DrawerFooter>
