@@ -1,1 +1,1 @@
-export const getProductImageUrl = (imagePath) => `http://localhost:3000/${imagePath}`;
+export const getProductImageUrl = (imagePath) => `https://professionalecommerceb.onrender.com/${imagePath}`;
