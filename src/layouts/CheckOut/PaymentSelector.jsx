@@ -13,7 +13,7 @@ export function PaymentOptions({ paymentMethod, setPaymentMethod }) {
                     <RadioCard.ItemHiddenInput />
                     <RadioCard.ItemControl>
                         <RadioCard.ItemContent>
-                            <RadioCard.ItemText>Transferencia Bancaria</RadioCard.ItemText>
+                            <RadioCard.ItemText>Bank Transfer</RadioCard.ItemText>
                         </RadioCard.ItemContent>
                         <RadioCard.ItemIndicator />
                     </RadioCard.ItemControl>
@@ -33,7 +33,7 @@ export function PaymentOptions({ paymentMethod, setPaymentMethod }) {
                     <RadioCard.ItemHiddenInput />
                     <RadioCard.ItemControl>
                         <RadioCard.ItemContent>
-                            <RadioCard.ItemText>Tarjeta (Stripe)</RadioCard.ItemText>
+                            <RadioCard.ItemText>Card (Stripe)</RadioCard.ItemText>
                         </RadioCard.ItemContent>
                         <RadioCard.ItemIndicator />
                     </RadioCard.ItemControl>

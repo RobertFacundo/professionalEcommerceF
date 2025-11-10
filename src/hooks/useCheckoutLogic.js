@@ -149,6 +149,8 @@ export default function useCheckoutLogic(onClose) {
 
                 const orderId = result.orderId || result._id;
 
+                 clearCart();
+
                 setInitPoint(result.payment.init_point);
                 setOrderResult({
                     orderId,
@@ -162,8 +164,6 @@ export default function useCheckoutLogic(onClose) {
                     }
                 });
                 setStep(4);
-
-                if (typeof clearCart === 'function') clearCart();
 
                 return;
             }
