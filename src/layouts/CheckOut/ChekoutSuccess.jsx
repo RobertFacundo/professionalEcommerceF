@@ -1,6 +1,8 @@
 import { Box, Text, Button } from '@chakra-ui/react';
 
 export function CheckoutSuccess({ order, onClose }) {
+
+    console.log(order,'ORDER DEL CHECKOUTSUCCESS')
     return (
         <Box p={6}>
             <Text fontSize="xl" fontWeight="bold">✅ Purchase Successful</Text>

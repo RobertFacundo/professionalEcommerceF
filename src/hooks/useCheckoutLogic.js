@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { toaster } from '../components/ui/toaster';
-import { createOrder } from '../redux/slices/orderSlice'
+import { createOrder } from '../redux/slices/orderSlice';
+import { initStripePayment } from '../redux/slices/paymentSlice'
 import { useCart } from './useCart';
 import axiosInstance from '../api/axiosConfig';
 
@@ -82,7 +83,7 @@ export default function useCheckoutLogic(onClose) {
                     toaster.create({ status: "warning", title: "Pago no confirmado", description: "No pudimos confirmar el pago automáticamente. Verificá tu orden más tarde." });
                 }
             } catch (error) {
-                console.error("Poll error:", err);
+                console.error("Poll error:", error);
             }
         }, intervalMs)
     }
@@ -203,6 +204,7 @@ export default function useCheckoutLogic(onClose) {
 
                 setOrderResult(jsonData)
                 setStep(4)
+                clearCart()
             }
 
             if (paymentMethod === 'transferencia') {
@@ -216,10 +218,46 @@ export default function useCheckoutLogic(onClose) {
                 });
             }
 
-            if (result?.orderId && typeof clearCart === 'function') {
-                console.log("🟥 Executing clearCart()");
-                clearCart();
+            if (paymentMethod === 'stripe') {
+                try {
+                    const paymentData = {
+                        amount: Math.round(totalPrice * 100),
+                        currency: 'usd',
+                        orderId: result.orderId
+                    }
+
+                    console.log("paymentData enviado:", paymentData);
+
+                    const stripeResponse = await dispatch(initStripePayment(paymentData)).unwrap();
+
+                    // stripeResponse.clientSecret
+                    console.log("💳 Stripe clientSecret:", stripeResponse.clientSecret);
+
+                    console.log(result, 'log del stripe flux order')
+
+                    setOrderResult({
+                        orderId: result.orderId,
+                        payment: {
+                            provider: "stripe",
+                            clientSecret: stripeResponse.clientSecret,
+                            paymentIntentId: stripeResponse.paymentIntentId
+                        }
+                    });
+
+                } catch (err) {
+                    console.error("Stripe payment error:", err);
+                    toaster.create({
+                        status: "error",
+                        title: "Error en Stripe",
+                        description: err?.message || "No se pudo procesar el pago"
+                    });
+                }
             }
+
+            // if (result?.orderId && typeof clearCart === 'function') {
+            //     console.log("🟥 Executing clearCart()");
+            //     clearCart();
+            // }
         } catch (error) {
             console.error('create order error:', error);
             toaster.create({
@@ -247,6 +285,8 @@ export default function useCheckoutLogic(onClose) {
         handleCreateOrder,
         resetCheckout,
         items,
-        totalPrice
+        totalPrice,
+        setOrderResult,
+        clearCart
     };
 }

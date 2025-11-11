@@ -4,6 +4,7 @@ const orderService = {
     createOrder: async (orderData) => {
         try {
             const response = await axiosInstance.post('/orders', orderData);
+            console.log(response, 'log del createorder, orderservice')
             return response.data;
         } catch (error) {
             throw error.response?.data || error;

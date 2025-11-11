@@ -20,15 +20,22 @@ import {
     Portal,
     Separator,
 } from '@chakra-ui/react';
+import { useMemo } from 'react';
 import useCheckoutLogic from "../../hooks/useCheckoutLogic";
 import { CheckoutForm } from './CustomerForm';
 import { PaymentOptions } from './PaymentSelector';
 import { OrderSummary } from './OrderSummary';
 import { CheckoutSuccess } from './ChekoutSuccess';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { StripeCheckoutForm } from './StripeCheckoutForm';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export default function CheckoutModal({ isOpen, onClose }) {
     const {
         step,
+        setStep,
         buyer,
         setBuyer,
         shippingMethod,
@@ -37,11 +44,21 @@ export default function CheckoutModal({ isOpen, onClose }) {
         setPaymentMethod,
         loading,
         orderResult,
+        setOrderResult,
         handleCreateOrder,
         resetCheckout,
         items,
-        totalPrice
+        totalPrice,
+        clearCart
     } = useCheckoutLogic(onClose);
+
+    const stripeOptions = useMemo(() => {
+        if (!orderResult?.payment?.clientSecret) return null;
+        return {
+            clientSecret: orderResult.payment.clientSecret,
+            appearance: { theme: 'stripe' }
+        }
+    }, [orderResult?.payment?.clientSecret])
 
     return (
         <DrawerRoot
@@ -127,6 +144,29 @@ export default function CheckoutModal({ isOpen, onClose }) {
                                     order={orderResult}
                                     onClose={resetCheckout}
                                 />
+                            )}
+
+                            {paymentMethod === 'stripe' && stripeOptions && step !== 4 && (
+                                <Elements stripe={stripePromise} options={stripeOptions}>
+                                    <StripeCheckoutForm
+                                        clientSecret={stripeOptions.clientSecret}
+                                        orderId={orderResult.orderId}
+                                        onSuccess={(paymentIntent) => {
+                                            setStep(4);
+                                            if (typeof clearCart === 'function') clearCart()
+                                            setOrderResult(prev => ({
+                                                ...prev,
+                                                paymentIntent,
+                                                payment: {
+                                                    ...prev.payment,
+                                                    status: 'succeeded'
+                                                }
+                                            }));
+                                        }}
+                                    >
+
+                                    </StripeCheckoutForm>
+                                </Elements>
                             )}
                         </DrawerBody>
 
