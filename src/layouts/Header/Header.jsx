@@ -25,9 +25,9 @@ export default function Header({ onOpenCart }) {
                         boxSize={{ base: '36px', md: '48px' }}
                         objectFit='contain'
                     />
-                    <VisuallyHidden>Professional MERN Ecomerce</VisuallyHidden>
+                    <VisuallyHidden>MERN Ecomerce</VisuallyHidden>
                     <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>
-                        Professional MERN Ecommerce
+                        MERN Ecommerce - using Stripe and MercadoPago
                     </Text>
                 </HStack>
 
