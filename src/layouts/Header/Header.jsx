@@ -27,7 +27,7 @@ export default function Header({ onOpenCart }) {
                     />
                     <VisuallyHidden>MERN Ecomerce</VisuallyHidden>
                     <Text fontWeight='bold' fontSize={{ base: 'lg', md: 'xl' }}>
-                        MERN Ecommerce - using Stripe and MercadoPago
+                        MERN Ecommerce - Stripe and MercadoPago
                     </Text>
                 </HStack>
 
