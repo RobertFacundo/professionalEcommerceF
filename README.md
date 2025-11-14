@@ -1,16 +1,129 @@
-# React + Vite
+# MERN Ecommerce / Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Link to backend: [Recipe Finder Backend](https://github.com/RobertFacundo/professionalEcommerceB)
 
-Currently, two official plugins are available:
+A fully functional e-commerce frontend, built with React, Redux, and integrated with Mercado Pago and Stripe for payments. This project allows users to browse categories, view products, add them to the cart, and complete checkout with multiple payment options.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React** (Vite) with **Hooks**
+- **Redux Toolkit**
+- **Axios**
+- **Chakra UI**
+- **Stripe & Mercado Pago**
+- **JavaScript / JSX**
+- **SCSS / CSS Modules**
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## API Services
+
+The frontend communicates with the backend via Axios and provides these services:
+
+- **Payment Service** (`paymentService.js`)
+  - `createMercadoPagoPayment(paymentData)`
+  - `createStripePaymentIntent(paymentData)`
+
+- **Order Service** (`orderService.js`)
+  - `createOrder(orderData)`
+  - `getAllOrders()`
+  - `getOrderById(id)`
+  - `updateOrder(id, updateData)`
+  - `deleteOrder(id)`
+
+- **Product Service** (`productService.js`)
+  - Handles CRUD operations for products (used by admin panel)
+
+---
+
+## 💡 Key Features
+
+- Dynamic product listing with categories and accordions
+- Product modal with quantity selector and add-to-cart functionality
+- Persistent cart using Redux and localStorage
+- Checkout modal with form validation
+- Payment integration with **Stripe** and **Mercado Pago**
+- Admin panel (CRUD for products) ready to connect
+- Responsive design
+
+---
+
+## 📂 Project Structure
+```bash
+SRC
+|   App.css
+|   App.jsx
+|   index.css
+|   main.jsx
+|   theme.js
+|
++---api
+|       axiosConfig.js
+|       orderService.js
+|       paymentService.js
+|       productService.js
+|
++---assets
++---components
+|   \---ui
+|           color-mode.jsx
+|           provider.jsx
+|           toaster.jsx
+|           tooltip.jsx
+|
++---hooks
+|       useCart.js
+|       useCheckoutLogic.js
+|       useProducts.js
+|       useStripePayment.js
+|
++---layouts
+|   +---Cart
+|   |       CartItem.jsx
+|   |       CartModal.jsx
+|   |       CartSummary.jsx
+|   |
+|   +---CheckOut
+|   |       CheckoutModal.jsx
+|   |       ChekoutSuccess.jsx
+|   |       CustomerForm.jsx
+|   |       OrderSummary.jsx
+|   |       PaymentSelector.jsx
+|   |       StripeCheckoutForm.jsx
+|   |
+|   +---Footer
+|   |       Footer.jsx
+|   |
+|   +---Header
+|   |       Header.jsx
+|   |
+|   +---ProductList
+|   |       ProductCard.jsx
+|   |       ProductList.jsx
+|   |
+|   \---ProductModal
+|           PresentationSelector.jsx
+|           ProductModal.jsx
+|           QuantityCounter.jsx
+|
++---redux
+|   |   store.js
+|   |
+|   \---slices
+|           cartSlice.js
+|           orderSlice.js
+|           paymentSlice.js
+|           productSlice.js
+|
+\---utils
+        categoryImages.js
+        getProductImageUrl.js
+```
+---
+## 📬 Contact
+
+- LinkedIn: [Facundo Robert](https://www.linkedin.com/in/robertfacundodev/)
+- Portfolio: [My Portfolio](https://facundorobert.vercel.app/) 
+- Email: robertf.coder@gmail.com
