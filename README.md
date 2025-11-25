@@ -51,7 +51,7 @@ The frontend communicates with the backend via Axios and provides these services
 ---
 
 ## 📂 Project Structure
-```json
+```js
 SRC
 |   App.css
 |   App.jsx
